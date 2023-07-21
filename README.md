@@ -9,8 +9,8 @@ links work (either in the form of relative link or the `!community_name@instance
 But when linking to a Lemmy community from outside Lemmy, you face the problem of forcing the user to go to the instance
 you linked to instead of their own.
 
-Using this project you can create a link like this: `https://lemmings.link/c/community_name@instance.tld`, the user
-will be given the option to set their home instance and every further link to `lemmings.link` will work as usual.
+Using this project you can create a link like this: `https://lemmyverse.link/c/community_name@instance.tld`, the user
+will be given the option to set their home instance and every further link to `lemmyverse.link` will work as usual.
 
 ![Preview of a screen for setting instance to redirect](doc/assets/lemmy-01.png)
 
