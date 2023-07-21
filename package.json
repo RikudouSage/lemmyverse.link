@@ -11,6 +11,7 @@
         "@symfony/stimulus-bridge": "^3.2.0",
         "@symfony/webpack-encore": "^4.0.0",
         "core-js": "^3.23.0",
+        "dotenv": "^16.3.1",
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.64.0",
         "sass-loader": "^13.0.0",
@@ -28,5 +29,6 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
-    }
+    },
+    "dependencies": {}
 }

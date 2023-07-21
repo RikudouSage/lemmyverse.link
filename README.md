@@ -34,3 +34,32 @@ Replace `[language]` with your two-letter country code, for example for German i
 `./bin/console translation:extract --force --format yaml de`
 
 Edit the file `translations/messages+intl-icu.[language].yaml`
+
+
+## Deploying
+
+If you want to deploy this project using serverless, follow these steps:
+
+- `export DOMAIN_NAME=lemmyverse.link` (replace `lemmyverse.link` with your domain)
+- `export AWS_REGION=eu-central-1`
+- `rm -rf ./var/{cache,log} public/build`
+- `APP_ENV=prod composer install --no-dev --no-scripts`
+- `yarn install`
+- `yarn build`
+- `./bin/console cache:warmup --env=prod`
+- `export DOMAIN_ZONE=XXX` (replace `XXX` with your AWS domain zone id)
+- `export DOMAIN_ID=Lemmyverse` (replace `Lemmyverse` with any identifier for your domain)
+- `serverless deploy --stage prod --verbose --region $AWS_REGION`
+- `export ASSETS_BUCKET=$(aws cloudformation describe-stacks --stack-name LemmyverseLink-$DOMAIN_ID-prod --query "Stacks[0].Outputs[?OutputKey=='AssetsBucket'].OutputValue" --output=text --region $AWS_REGION)`
+- `export CDN_ID=$(aws cloudformation describe-stacks --stack-name LemmyverseLink-$DOMAIN_ID-prod --query "Stacks[0].Outputs[?OutputKey=='Cdn'].OutputValue" --output=text --region $AWS_REGION)`
+- `aws s3 sync public/build s3://$ASSETS_BUCKET/build --delete`
+- `aws cloudfront create-invalidation --distribution-id $CDN_ID --paths "/*"`
+
+### Removing deployed code
+
+- `export DOMAIN_ID=Lemmyverse` (replace `Lemmyverse` with any identifier for your domain)
+- `export AWS_REGION=eu-central-1`
+- `export ASSETS_BUCKET=$(aws cloudformation describe-stacks --stack-name LemmyverseLink-$DOMAIN_ID --query "Stacks[0].Outputs[?OutputKey=='AssetsBucket'].OutputValue" --output=text --region $AWS_REGION)`
+- `aws s3 rm s3://$ASSETS_BUCKET/ --recursive`
+- `serverless remove --stage prod --verbose --region $AWS_REGION`
+
