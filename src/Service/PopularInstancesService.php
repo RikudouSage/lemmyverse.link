@@ -7,7 +7,8 @@ final class PopularInstancesService
     /**
      * @return array<string>
      *
-     * @todo actually get the list without hardcoding it
+     * @todo actually get the list without hardcoding it and remove @codeCoverageIgnore
+     * @codeCoverageIgnore
      */
     public function getPopularInstances(): array
     {
