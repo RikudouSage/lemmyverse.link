@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ "Redirecting..." | trans }}{% endblock %}
+
+{% block body %}
+    <p class="align-center" {{ stimulus_controller('redirect', {
+        countdown: timeout,
+        url: url,
+    }) }}>
+        {{ "Redirecting to <a href='{link}'>{link}</a> in {targetStart}{seconds}{targetEnd} seconds..." | trans({
+            '{link}': url,
+            '{seconds}': timeout,
+            '{targetStart}': '<span ' ~ stimulus_target('redirect', 'countdown') ~ '>',
+            '{targetEnd}': '</span>'
+        }) | raw }}
+    </p>
+    <p class="align-center">
+        <a href="{{ preferenceUrl }}">
+            <small>
+                {{ "Change your instance" | trans }}
+            </small>
+        </a>
+    </p>
+{% endblock %}

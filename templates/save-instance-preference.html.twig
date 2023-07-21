@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ "Configure Lemmy redirect" | trans }}{% endblock %}
+
+{% block body %}
+    <div {{ stimulus_controller('save-preference', {
+        cookieName: cookieName,
+        redirectUrl: redirectTo,
+        emptyInputError: "The field cannot be empty." | trans,
+        invalidValueError: "The domain is not valid, it shouldn't contain any scheme (like https://) or path, just the domain." | trans,
+    }) }}>
+        <p>
+            {{ "You are being taken to the '{community}' community. You might configure your home instance so that you are redirected automatically in the future." | trans({
+                '{community}': community,
+            }) }}
+        </p>
+
+        <div class="button-wrapper">
+            <button class="btn" {{ stimulus_action('save-preference', 'toggleInstanceRow') }}>{{ "Set my home instance" | trans }}</button>
+            <a class="btn" href="{{ redirectTo }}?forceHomeInstance=1">{{ "Just take me there!" | trans }}</a>
+        </div>
+        <div class="button-wrapper hidden" {{ stimulus_target('save-preference', 'preferredInstances') }}>
+            {% for instance in instances %}
+                <button class="btn"
+                        data-instance="{{ instance }}" {{ stimulus_action('save-preference', 'saveInstance') }}>{{ instance }}</button>
+            {% endfor %}
+            <button class="btn" {{ stimulus_action('save-preference', 'showCustomInstanceField') }}>{{ "Custom instance" | trans }}</button>
+        </div>
+        <div class="hidden" {{ stimulus_target('save-preference', 'customInstanceInputWrapper') }}>
+            <div class="button-wrapper flex">
+                <input class="form-control" type="text"
+                       {{ stimulus_target('save-preference', 'customInstanceInput') }}
+                       placeholder="{{ "Your custom instance (without https:// - just the domain, for example lemmings.world)" | trans }}"/>
+                <button class="btn" {{ stimulus_action('save-preference', 'saveCustomInstance') }}>{{ "Save" | trans }}</button>
+            </div>
+        </div>
+
+        <p class="error align-center" {{ stimulus_target('save-preference', 'errorText') }}></p>
+    </div>
+{% endblock %}

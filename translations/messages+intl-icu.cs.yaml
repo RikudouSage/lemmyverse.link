@@ -1,0 +1,14 @@
+Redirecting...: Přesměrování...
+"Redirecting to <a href='{link}'>{link}</a> in {targetStart}{seconds}{targetEnd} seconds...": "Probíhá přesměrování na <a href=''{link}''>{link}</a> za {targetStart}{seconds}{targetEnd} sekund..."
+'Change your instance': 'Změnit vaši instanci'
+'Configure Lemmy redirect': 'Nastavení přesměrování na Lemmy'
+'The field cannot be empty.': 'Políčko nemůže být prázdné.'
+"The domain is not valid, it shouldn't contain any scheme (like https://) or path, just the domain.": 'Doména není platná, neměla by obsahovat žádné schéma (např. https://), ani cestu, pouze doménu.'
+'You are being taken to the ''{community}'' community. You might configure your home instance so that you are redirected automatically in the future.': 'Právě jste přesměrováváni do komunity ''''{community}''''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky.'
+'Set my home instance': 'Nastavit domácí instanci'
+'Just take me there!': 'Prostě mě přesměruj!'
+'Custom instance': 'Vlastní instance'
+'Your custom instance (without https:// - just the domain, for example lemmings.world)': 'Vaše vlastní instance (bez https:// - pouze doména, např. lemmings.world)'
+Save: Uložit
+Error: Chyba
+'The link you clicked is invalid because the community cannot be resolved:': 'Odkaz, na který jste klikli, není platný, protože nelze zjistit, na jakou komunitu přesměrovat:'
