@@ -14,14 +14,14 @@ jobs:
         domain: [lemmyverse.link, threadiverse.link]
         include:
           - domain: lemmyverse.link
-            zone: ${{ secrets.LEMMYVERSE_ZONE_ID }}
+            zoneSecret: LEMMYVERSE_ZONE_ID
             domainId: Lemmyverse
           - domain: threadiverse.link
-            zone: ${{ secrets.THREADIVERSE_ZONE_ID }}
+            zoneSecret: THREADIVERSE_ZONE_ID
             domainId: Threadiverse
     env:
       DOMAIN_NAME: ${{ matrix.domain }}
-      DOMAIN_ZONE: ${{ matrix.zone }}
+      DOMAIN_ZONE: ${{ secrets[matrix.zone] }}
       DOMAIN_ID: ${{ matrix.domainId }}
       AWS_REGION: eu-central-1
       APP_ENV: prod
