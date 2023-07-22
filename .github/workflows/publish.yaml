@@ -25,7 +25,7 @@ jobs:
       DOMAIN_ID: ${{ matrix.domainId }}
       AWS_REGION: eu-central-1
       APP_ENV: prod
-      AWS_ACCESS_KEY_ID: ${{ secrests.AWS_ACCESS_KEY_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout code
