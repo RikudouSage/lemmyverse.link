@@ -30,7 +30,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Setup prod dependencies
+      - name: Setup php dependencies
+        run: composer install --no-dev --no-scripts
+      - name: Setup js dependencies
         run: yarn install
       - name: Build assets
         run: yarn build
