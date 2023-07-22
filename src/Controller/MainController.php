@@ -13,9 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 final class MainController extends AbstractController
 {
     #[Route('/', name: 'app.home', methods: [Request::METHOD_GET])]
-    public function home(Request $request): Response
+    public function index(Request $request): Response
     {
         return $this->render('index.html.twig', [
+            'host' => $request->getHost(),
+        ]);
+    }
+
+    #[Route('/how-does-it-work', name: 'app.explanation', methods: [Request::METHOD_GET])]
+    public function howDoesItWork(Request $request): Response
+    {
+        return $this->render('how-does-it-work.html.twig', [
             'host' => $request->getHost(),
         ]);
     }

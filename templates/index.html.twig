@@ -1,60 +1,39 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ '{name} - Lemmy redirect service' | trans({
-    '{name}': host,
+{% block title %}{{ '{name} - Create shareable link to a Lemmy community' | trans({
+    '{name}': host | capitalize,
 }) }}{% endblock %}
 
 {% block body %}
-    <p>
-        {{ "This service is used for linking to Lemmy communities in a universal way." | trans }}
-        {{ "When you use this service, you give your users the option to view a community on their preferred instance instead of going through a complicated process just to interact with the link." | trans }}
-    </p>
-    <h3>{{ "How it works without this service:" | trans }}</h3>
-    <ol>
-        <li>
-            {{ "You link to a community, let's say <strong>{example}</strong>, using a link:"|trans({
-                '{example}': 'wwdits@lemmings.world'
-            }) | raw }} <a href="https://lemmings.world/c/wwdits">https://lemmings.world/c/wwdits</a>
-        </li>
-        <li>
-            {{ "After the user clicks it, one of two things happens:" | trans }}
-            <ol>
-                <li>{{ "They have an account on the same instance which means everything is fine and the link works, you're done." | trans }}</li>
-                <li>{{ "The user doesn't have an account on the same instance, so the process gets more complicated." | trans }}</li>
-            </ol>
-        </li>
-        <li>
-            {{ "The user has to open their own instance." | trans }}
-        </li>
-        <li>
-            {{ "The user has to copy the link." | trans }}
-        </li>
-        <li>
-            {{ "The user has to paste the link into a search bar on their own instance." | trans }}
-        </li>
-        <li>
-            {{ "The user has to click the link in search results." | trans }}
-        </li>
-    </ol>
-    <h3>
-        {{ "How it works with this service:" | trans }}
-    </h3>
-    <ol>
-        <li>
-            {{ "You link to the same community like this:" | trans }}
-            <a href="{{ url('app.community', {community: 'wwdits@lemmings.world'}) }}">
-                {{ url('app.community', {community: 'wwdits@lemmings.world'}) }}
-            </a>
-        </li>
-        <li>
-            {{ "After the user clicks it, one of two things happens:" | trans }}
-            <ol>
-                <li>{{ "If this isn't the first time the user is here, they will be redirected to their preferred instance." | trans }}</li>
-                <li>{{ "If this is the first time, the user is given the option to either set their own instance or to continue to the target instance." | trans }}</li>
-            </ol>
-        </li>
-        <li>
-            {{ "Done! Either way the user is on an instance, either one of their choice or on the one the community is hosted on if the user doesn't care." | trans }}
-        </li>
-    </ol>
+    <div {{ stimulus_controller('generate-link', {
+        linkTemplate: url('app.community', {community: '%s'}) | url_decode,
+    }) }}>
+        <p class="align-center">{{ "Without it being tied to any particular instance." | trans }}</p>
+        <div class="button-wrapper flex">
+            <input class="form-control" type="text"
+                    {{ stimulus_target('generate-link', 'community') }}
+                   placeholder="community_name@example.com"/>
+            <button class="btn no-wrap" {{ stimulus_action('generate-link', 'createLink') }}>{{ "Create link" | trans }}</button>
+        </div>
+        <p class="error hidden" {{ stimulus_target('generate-link', 'error') }}>
+            {{ "The community name is not valid." | trans }}
+        </p>
+        <div class="result hidden" {{ stimulus_target('generate-link', 'result') }}>
+            <p>
+                {{ "Done! Here is your link:" | trans }}
+                <span {{ stimulus_target('generate-link', 'linkPlaceholder') }}></span>
+            </p>
+            <p>
+                <button class="btn" {{ stimulus_action('generate-link', 'copyToClipboard') }}>{{ "Copy to clipboard" | trans }}</button>
+            </p>
+            <p class="hidden" {{ stimulus_target('generate-link', 'copyToClipboardResult') }}>
+                {{ "Copied!" | trans }}
+            </p>
+        </div>
+        <hr>
+        <p>
+            <a class="explanation-link"
+               href="{{ path('app.explanation') }}"><small>{{ "How does it work?" | trans }}</small></a>
+        </p>
+    </div>
 {% endblock %}
