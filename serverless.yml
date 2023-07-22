@@ -60,7 +60,7 @@ resources:
         AppSecret:
             Type: AWS::SecretsManager::Secret
             Properties:
-                Description: Slack Lemmy service app secret
+                Description: Lemmyverse link App secret
                 GenerateSecretString:
                     SecretStringTemplate: '{}'
                     GenerateStringKey: "secret"
