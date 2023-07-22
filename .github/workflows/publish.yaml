@@ -21,7 +21,7 @@ jobs:
             domainId: Threadiverse
     env:
       DOMAIN_NAME: ${{ matrix.domain }}
-      DOMAIN_ZONE: ${{ secrets[matrix.zone] }}
+      DOMAIN_ZONE: ${{ secrets[matrix.zoneSecret] }}
       DOMAIN_ID: ${{ matrix.domainId }}
       AWS_REGION: eu-central-1
       APP_ENV: prod
@@ -53,4 +53,4 @@ jobs:
       - name: Clear CDN cache
         run: |
           export CDN_ID=$(aws cloudformation describe-stacks --stack-name LemmyverseLink-$DOMAIN_ID-prod --query "Stacks[0].Outputs[?OutputKey=='Cdn'].OutputValue" --output=text --region $AWS_REGION)
-          aws cloudfront create-invalidation --distribution-id $CDN_ID --paths "/*"
+          aws cloudfront create-invalidation --distribution-id $CDN_ID --paths "/*" 2>&1 > /dev/null
