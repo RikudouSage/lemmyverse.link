@@ -19,12 +19,16 @@ final class LemmyLinkController extends AbstractController
     #[Route('/c/{community}', name: 'app.community', methods: [Request::METHOD_GET])]
     public function communityLink(
         string $community,
-        PreferenceManager $preferenceManager,
         #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
+        #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        PreferenceManager $preferenceManager,
         Request $request,
         CommunityNameParser $communityNameParser,
     ): Response {
-        $forceHomeInstance = $request->query->getBoolean('forceHomeInstance');
+        $forceHomeInstance
+            = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
+         || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
+        ;
 
         try {
             $parsedCommunityName = $communityNameParser->parse($community);

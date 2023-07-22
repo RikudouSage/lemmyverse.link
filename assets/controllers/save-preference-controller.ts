@@ -14,6 +14,7 @@ export default class extends Controller {
         redirectUrl: String,
         emptyInputError: String,
         invalidValueError: String,
+        skipCookieName: String,
     };
 
     private preferredInstancesTarget: HTMLDivElement;
@@ -25,6 +26,7 @@ export default class extends Controller {
     private redirectUrlValue: string;
     private emptyInputErrorValue: string;
     private invalidValueErrorValue: string;
+    private skipCookieNameValue: string;
 
     public toggleInstanceRow(): void {
         const className = 'hidden';
@@ -39,6 +41,7 @@ export default class extends Controller {
         const instance = target.dataset.instance;
 
         this.savePreference(instance);
+        this.removeCookie(this.skipCookieNameValue);
         window.location.href = this.redirectUrlValue;
     }
 
@@ -58,13 +61,25 @@ export default class extends Controller {
         }
 
         this.savePreference(this.customInstanceInputTarget.value);
+        this.removeCookie(this.skipCookieNameValue);
         window.location.href = this.redirectUrlValue;
     }
 
-    private savePreference(instance: string): void {
+    public skipPreferred(): void {
+        this.savePreference('1', this.skipCookieNameValue);
+        this.removeCookie(this.cookieNameValue);
+        window.location.href = this.redirectUrlValue;
+    }
+
+    private savePreference(instance: string, cookieName: string = this.cookieNameValue): void {
         const targetDate = new Date();
         targetDate.setFullYear(targetDate.getFullYear() + 100);
 
-        document.cookie = `${this.cookieNameValue}=${instance}; expires=${targetDate.toString()}; path=/`
+        document.cookie = `${cookieName}=${instance}; expires=${targetDate.toString()}; path=/`
+    }
+
+    private removeCookie(cookieName: string): void {
+        const targetDate = new Date(1970, 0);
+        document.cookie = `${cookieName}=; expires=${targetDate.toString()}; path=/`;
     }
 }

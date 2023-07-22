@@ -18,14 +18,15 @@ final class PreferenceController extends AbstractController
     public function setPreferredInstance(
         Request $request,
         PopularInstancesService $popularInstances,
-        #[Autowire('%app.preferred_instance_cookie%')]
-        string $cookieName,
+        #[Autowire('%app.preferred_instance_cookie%')] string $cookieName,
+        #[Autowire('%app.skip_preferred_cookie%')] string $skipCookieName,
     ): Response {
         return $this->render('save-instance-preference.html.twig', [
             'redirectTo' => $request->query->get('redirectTo'),
             'community' => $request->query->get('community'),
             'instances' => $popularInstances->getPopularInstances(),
             'cookieName' => $cookieName,
+            'skipCookieName' => $skipCookieName,
         ]);
     }
 }
