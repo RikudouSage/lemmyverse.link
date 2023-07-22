@@ -13,7 +13,7 @@ body {
     font-size: 1.1rem;
 }
 
-p {
+p, h3 {
     margin: 0 2vw 2vh;
 }
 
@@ -101,6 +101,15 @@ a {
 
 .error {
     color: darkred;
+}
+
+ol {
+    margin-left: calc(3vw + 15px);
+    margin-bottom: 3vh;
+
+    ol {
+        margin-bottom: 0;
+    }
 }
 
 @media screen and (max-width: 768px) {

@@ -4,7 +4,7 @@ Redirecting...: Přesměrování...
 'Configure Lemmy redirect': 'Nastavení přesměrování na Lemmy'
 'The field cannot be empty.': 'Políčko nemůže být prázdné.'
 "The domain is not valid, it shouldn't contain any scheme (like https://) or path, just the domain.": 'Doména není platná, neměla by obsahovat žádné schéma (např. https://), ani cestu, pouze doménu.'
-'You are being taken to the ''{community}'' community. You might configure your home instance so that you are redirected automatically in the future.': 'Právě jste přesměrováváni do komunity ''''{community}''''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky.'
+"You are being taken to the '{community}' community. You might configure your home instance so that you are redirected automatically in the future.": "Právě jste přesměrováváni do komunity ''{community}''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky."
 'Set my home instance': 'Nastavit domácí instanci'
 'Just take me there!': 'Prostě mě přesměruj!'
 'Custom instance': 'Vlastní instance'
@@ -12,3 +12,20 @@ Redirecting...: Přesměrování...
 Save: Uložit
 Error: Chyba
 'The link you clicked is invalid because the community cannot be resolved:': 'Odkaz, na který jste klikli, není platný, protože nelze zjistit, na jakou komunitu přesměrovat:'
+'{name} - Lemmy redirect service': '{name} - přesměrovávací služba pro Lemmy'
+'This service is used for linking to Lemmy communities in a universal way.': 'Tato služba se používá pro odkazování na Lemmy komunity univerzálním způsobem.'
+'How it works without this service:': 'Jak to funguje bez této služby:'
+"You link to a community, let's say <strong>{example}</strong>, using a link:": "Vytvoříte odkaz na komunity, například <strong>{example}</strong>, pomocí standardního odkazu:"
+'After the user clicks it, one of two things happens:': 'Když na něj uživatel klikne, stane se jedna ze dvou věcí:'
+"They have an account on the same instance which means everything is fine and the link works, you're done.": "Mají účet na stejné instanci, všechno je tedy v pohodě a odkaz funguje, máte hotovo.."
+"The user doesn't have an account on the same instance, so the process gets more complicated.": "Uživatel nemá účet na stejné instanci, takže se to trochu komplikuje."
+'The user has to open their own instance.': 'Uživatel musí otevřít svou vlastní instanci.'
+'The user has to copy the link.': 'Uživatel musí zkopírovat váš odkaz.'
+'The user has to paste the link into a search bar on their own instance.': 'Uživatel musí odkaz zkopírovat do vyhledávacího pole na své instanci.'
+'The user has to click the link in search results.': 'Uživatel se musí prokliknout z výsledků vyhledávání.'
+'How it works with this service:': 'Jak to funguje s touto službou:'
+'You link to the same community like this:': 'Odkážete na komunitu takto:'
+"If this isn't the first time the user is here, they will be redirected to their preferred instance.": "Pokud tohle není poprvé, co je tento uživatel zde, bude přesměrován na svou oblíbenou instanci."
+'If this is the first time, the user is given the option to either set their own instance or to continue to the target instance.': 'Pokud zde je poprvé, uživatel dostane možnost si buď nastavit oblíbenou instanci, nebo pokračovat na cílovou instanci.'
+"Done! Either way the user is on an instance, either one of their choice or on the one the community is hosted on if the user doesn't care.": "Hotovo! Tak či onak je uživatel přesměrován, buď na instanci dle svého výběru, nebo na instanci, kde se nachází komunita, pokud je to uživateli jedno."
+'When you use this service, you give your users the option to view a community on their preferred instance instead of going through a complicated process just to interact with the link.': 'Použitím této služby dáváte uživatelům možnost si zobrazit komunitu na jejich oblíbené instanci, naamísto zdlouhavého procesu, jen aby mohli interagovat s vaším odkazem.'
