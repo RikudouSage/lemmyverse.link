@@ -64,6 +64,7 @@ final readonly class LemmyObjectResolver
         }
 
         $api = $this->apiFactory->getForInstance($instance);
+
         try {
             $post = $api->miscellaneous()->resolveObject(query: $postId)->post;
         } catch (LemmyApiException) {
