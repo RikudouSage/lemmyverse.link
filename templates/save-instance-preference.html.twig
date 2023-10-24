@@ -10,11 +10,19 @@
         emptyInputError: "The field cannot be empty." | trans,
         invalidValueError: "The domain is not valid, it shouldn't contain any scheme (like https://) or path, just the domain." | trans,
     }) }}>
-        <p>
-            {{ "You are being taken to the '{community}' community. You might configure your home instance so that you are redirected automatically in the future." | trans({
-                '{community}': community,
-            }) }}
-        </p>
+        {% if community %}
+            <p>
+                {{ "You are being taken to the '{community}' community. You might configure your home instance so that you are redirected automatically in the future." | trans({
+                    '{community}': community,
+                }) }}
+            </p>
+        {% elseif user %}
+            <p>
+                {{ "You are being taken to the '{user}' user profile. You might configure your home instance so that you are redirected automatically in the future." | trans({
+                    '{user}': user,
+                }) }}
+            </p>
+        {% endif %}
 
         <div class="button-wrapper">
             <button class="btn" {{ stimulus_action('save-preference', 'toggleInstanceRow') }}>{{ "Set my home instance" | trans }}</button>

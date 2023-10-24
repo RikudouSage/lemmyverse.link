@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ "Error" | trans }}{% endblock %}
+
+{% block body %}
+    <p class="align-center">
+        {{ "The link you clicked is invalid because the user cannot be resolved:"|trans }}
+        <strong>{{ user }}</strong>.
+    </p>
+{% endblock %}

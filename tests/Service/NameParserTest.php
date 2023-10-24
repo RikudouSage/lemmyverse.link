@@ -1,12 +1,12 @@
 <?php
 
-namespace Service;
+namespace App\Tests\Service;
 
-use App\Service\CommunityNameParser;
+use App\Service\NameParser;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class CommunityNameParserTest extends TestCase
+class NameParserTest extends TestCase
 {
     /**
      * @dataProvider getTestData
@@ -17,7 +17,7 @@ class CommunityNameParserTest extends TestCase
         ?string $expectedName = null,
         ?string $expectedInstance = null,
     ): void {
-        $instance = new CommunityNameParser();
+        $instance = new NameParser();
 
         if (!$success) {
             $this->expectException(InvalidArgumentException::class);

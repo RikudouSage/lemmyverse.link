@@ -6,13 +6,13 @@
 
 {% block body %}
     <p>
-        {{ "This service is used for linking to Lemmy communities in a universal way." | trans }}
-        {{ "When you use this service, you give your users the option to view a community on their preferred instance instead of going through a complicated process just to interact with the link." | trans }}
+        {{ "This service is used for linking to Lemmy communities or users in a universal way." | trans }}
+        {{ "When you use this service, you give your users the option to view a community or a user profile on their preferred instance instead of going through a complicated process just to interact with the link." | trans }}
     </p>
     <h3>{{ "How it works without this service:" | trans }}</h3>
     <ol>
         <li>
-            {{ "You link to a community, let's say <strong>{example}</strong>, using a link:"|trans({
+            {{ "You link to a community (or a user), let's say <strong>{example}</strong>, using a link:"|trans({
                 '{example}': 'wwdits@lemmings.world'
             }) | raw }} <a href="https://lemmings.world/c/wwdits">https://lemmings.world/c/wwdits</a>
         </li>

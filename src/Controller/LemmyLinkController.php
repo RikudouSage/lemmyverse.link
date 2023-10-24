@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\CommunityNameParser;
+use App\Service\NameParser;
 use App\Service\PreferenceManager;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +23,7 @@ final class LemmyLinkController extends AbstractController
         #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
         PreferenceManager $preferenceManager,
         Request $request,
-        CommunityNameParser $communityNameParser,
+        NameParser $communityNameParser,
     ): Response {
         $forceHomeInstance
             = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
@@ -57,7 +57,55 @@ final class LemmyLinkController extends AbstractController
             return $this->redirect($preferenceRedirectUrl);
         }
 
-        return $this->render('redirect-community.html.twig', [
+        return $this->render('redirect.html.twig', [
+            'timeout' => $redirectTimeout,
+            'url' => $url,
+            'preferenceUrl' => $preferenceRedirectUrl,
+        ]);
+    }
+
+    #[Route('/u/{user}', name: 'app.user', methods: [Request::METHOD_GET])]
+    public function userLink(
+        string $user,
+        #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
+        #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        PreferenceManager $preferenceManager,
+        Request $request,
+        NameParser $usernameParser,
+    ): Response {
+        $forceHomeInstance
+            = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
+            || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
+        ;
+
+        try {
+            $parsedName = $usernameParser->parse($user);
+        } catch (InvalidArgumentException) {
+            return $this->render('invalid-user.html.twig', [
+                'user' => $user,
+            ]);
+        }
+
+        $preferenceRedirectUrl = $this->generateUrl('app.preferences.instance', [
+            'redirectTo' => $this->generateUrl('app.user', [
+                'user' => $user,
+            ]),
+            'user' => $user,
+        ]);
+
+        if ($forceHomeInstance) {
+            $targetInstance = $parsedName->homeInstance;
+            $url = "https://{$targetInstance}/u/{$parsedName->name}";
+        } else {
+            $targetInstance = $preferenceManager->getPreferredLemmyInstance();
+            $url = "https://{$targetInstance}/u/{$parsedName->fullName}";
+        }
+
+        if ($targetInstance === null) {
+            return $this->redirect($preferenceRedirectUrl);
+        }
+
+        return $this->render('redirect.html.twig', [
             'timeout' => $redirectTimeout,
             'url' => $url,
             'preferenceUrl' => $preferenceRedirectUrl,

@@ -24,6 +24,7 @@ final class PreferenceController extends AbstractController
         return $this->render('save-instance-preference.html.twig', [
             'redirectTo' => $request->query->get('redirectTo'),
             'community' => $request->query->get('community'),
+            'user' => $request->query->get('user'),
             'instances' => $popularInstances->getPopularInstances(),
             'cookieName' => $cookieName,
             'skipCookieName' => $skipCookieName,

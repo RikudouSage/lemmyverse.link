@@ -1,18 +1,19 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ '{name} - Create shareable link to a Lemmy community' | trans({
+{% block title %}{{ '{name} - Create shareable link to a Lemmy community or user' | trans({
     '{name}': host | capitalize,
 }) }}{% endblock %}
 
 {% block body %}
     <div {{ stimulus_controller('generate-link', {
-        linkTemplate: url('app.community', {community: '%s'}) | url_decode,
+        linkTemplateCommunity: url('app.community', {community: '%s'}) | url_decode,
+        linkTemplateUser: url('app.user', {user: '%s'}) | url_decode,
     }) }}>
         <p class="align-center">{{ "Without it being tied to any particular instance." | trans }}</p>
         <div class="button-wrapper flex">
             <input class="form-control" type="text"
-                    {{ stimulus_target('generate-link', 'community') }}
-                   placeholder="community_name@example.com"/>
+                    {{ stimulus_target('generate-link', 'communityOrUser') }}
+                   placeholder="community_name@example.com, !community_name@example.com or @user@example.com"/>
             <button class="btn no-wrap" {{ stimulus_action('generate-link', 'createLink') }}>{{ "Create link" | trans }}</button>
         </div>
         <p class="error hidden" {{ stimulus_target('generate-link', 'error') }}>

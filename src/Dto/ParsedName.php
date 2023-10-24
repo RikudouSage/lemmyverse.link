@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-final readonly class ParsedDomain
+final readonly class ParsedName
 {
     public function __construct(
         public string $name,
