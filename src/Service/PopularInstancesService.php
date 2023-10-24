@@ -15,11 +15,12 @@ final class PopularInstancesService
     {
         return [
             'lemmy.world',
-            'lemmy.ml',
             'lemm.ee',
+            'lemmy.ml',
             'feddit.de',
-            'lemmynsfw.com',
             'lemmy.ca',
+            'beehaw.org',
+            'lemmy.dbzer0.com',
             'lemmings.world',
         ];
     }
