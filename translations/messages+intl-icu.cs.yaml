@@ -13,9 +13,9 @@ Save: Uložit
 Error: Chyba
 'The link you clicked is invalid because the community cannot be resolved:': 'Odkaz, na který jste klikli, není platný, protože nelze zjistit, na jakou komunitu přesměrovat:'
 '{name} - Lemmy redirect service': '{name} - přesměrovávací služba pro Lemmy'
-'This service is used for linking to Lemmy communities or users in a universal way.': 'Tato služba se používá pro odkazování na Lemmy komunity nebo uživatele univerzálním způsobem.'
+'This service is used for linking to Lemmy communities, users, posts etc. in a universal way.': 'Tato služba se používá pro odkazování na Lemmy komunity, uživatele, příspěvky atp. univerzálním způsobem.'
 'How it works without this service:': 'Jak to funguje bez této služby:'
-"You link to a community (or a user), let's say <strong>{example}</strong>, using a link:": 'Vytvoříte odkaz na komunity, například <strong>{example}</strong>, pomocí standardního odkazu:'
+"You link to a community (user, post), let's say <strong>{example}</strong>, using a link:": 'Vytvoříte odkaz na komunitu (uživatele, příspěvek), například <strong>{example}</strong>, pomocí standardního odkazu:'
 'After the user clicks it, one of two things happens:': 'Když na něj uživatel klikne, stane se jedna ze dvou věcí:'
 "They have an account on the same instance which means everything is fine and the link works, you're done.": 'Mají účet na stejné instanci, všechno je tedy v pohodě a odkaz funguje, máte hotovo.'
 "The user doesn't have an account on the same instance, so the process gets more complicated.": 'Uživatel nemá účet na stejné instanci, takže se to trochu komplikuje.'
@@ -29,9 +29,7 @@ Error: Chyba
 'If this is the first time, the user is given the option to either set their own instance or to continue to the target instance.': 'Pokud zde je poprvé, uživatel dostane možnost si buď nastavit oblíbenou instanci, nebo pokračovat na cílovou instanci.'
 "Done! Either way the user is on an instance, either one of their choice or on the one the community is hosted on if the user doesn't care.": 'Hotovo! Tak či onak je uživatel přesměrován, buď na instanci dle svého výběru, nebo na instanci, kde se nachází komunita, pokud je to uživateli jedno.'
 'When you use this service, you give your users the option to view a community or a user profile on their preferred instance instead of going through a complicated process just to interact with the link.': 'Použitím této služby dáváte uživatelům možnost si zobrazit komunitu nebo uživatelský profil na jejich oblíbené instanci, namísto zdlouhavého procesu, jen aby mohli interagovat s vaším odkazem.'
-'{name} - Create shareable link to a Lemmy community or user': '{name} - Vytvořte odkaz na Lemmy uživatele nebo komunitu, který lze sdílet'
 'Create link': 'Vytvořit odkaz'
-'The community name is not valid.': 'Jméno komunity není platné.'
 'Done! Here is your link:': 'Hotovo! Zde je váš odkaz:'
 'Copy to clipboard': 'Zkopírovat do schránky'
 Copied!: Zkopírováno
@@ -41,3 +39,7 @@ Copied!: Zkopírováno
 "You are being taken to the '{user}' user profile. You might configure your home instance so that you are redirected automatically in the future.": "Právě jste přesměrováváni na uživatele ''{user}''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky."
 "You are being taken to a post '{post}'. You might configure your home instance so that you are redirected automatically in the future.": "Právě jste přesměrováváni na příspěvek s názvem ''{post}''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky."
 'You are being taken to a link on Lemmy. You might configure your home instance so that you are redirected automatically in the future.': 'Právě jste přesměrováváni na odkaz na Lemmy. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky.'
+'{name} - Create shareable link to Lemmy': '{name} - Vytvořte odkaz na Lemmy, který lze sdílet'
+'Just paste the link in the box above.': 'Stačí vložit odkaz do políčka nahoře.'
+"We don't support this link :/": "Tenhle odkaz neumíme :/"
+"If you think that's a mistake, please let us know on GitHub": "Pokud si myslíte, že se jedná o chybu, dejte nám to prosím vědět na GitHubu"

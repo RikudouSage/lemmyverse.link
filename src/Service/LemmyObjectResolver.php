@@ -5,6 +5,7 @@ namespace App\Service;
 use JsonException;
 use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
+use Rikudou\LemmyApi\Exception\LemmyApiException;
 use Rikudou\LemmyApi\Response\Model\Post;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,7 +64,11 @@ final readonly class LemmyObjectResolver
         }
 
         $api = $this->apiFactory->getForInstance($instance);
-        $post = $api->miscellaneous()->resolveObject(query: $postId)->post;
+        try {
+            $post = $api->miscellaneous()->resolveObject(query: $postId)->post;
+        } catch (LemmyApiException) {
+            return null;
+        }
         if ($post === null) {
             return null;
         }

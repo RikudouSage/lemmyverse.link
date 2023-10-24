@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{ '{name} - Create shareable link to a Lemmy community or user' | trans({
+{% block title %}{{ '{name} - Create shareable link to Lemmy' | trans({
     '{name}': host | capitalize,
 }) }}{% endblock %}
 
@@ -8,16 +8,22 @@
     <div {{ stimulus_controller('generate-link', {
         linkTemplateCommunity: url('app.community', {community: '%s'}) | url_decode,
         linkTemplateUser: url('app.user', {user: '%s'}) | url_decode,
+        linkTemplatePost: url('app.post', {originalInstance: '%s', postId: '%d'}) | url_decode,
     }) }}>
         <p class="align-center">{{ "Without it being tied to any particular instance." | trans }}</p>
         <div class="button-wrapper flex">
             <input class="form-control" type="text"
-                    {{ stimulus_target('generate-link', 'communityOrUser') }}
-                   placeholder="community_name@example.com, !community_name@example.com or @user@example.com"/>
+                    {{ stimulus_target('generate-link', 'linkInput') }}
+                   placeholder="https://example.com/c/community, https://example.com/u/user, https://example.com/post/123"/>
             <button class="btn no-wrap" {{ stimulus_action('generate-link', 'createLink') }}>{{ "Create link" | trans }}</button>
         </div>
+        <p>
+            <small>{{ "Just paste the link in the box above." | trans }}</small>
+        </p>
         <p class="error hidden" {{ stimulus_target('generate-link', 'error') }}>
-            {{ "The community name is not valid." | trans }}
+            {{ "We don't support this link :/" | trans }}<br>
+            {{ "If you think that's a mistake, please let us know on GitHub" | trans }}:
+            <a href="https://github.com/RikudouSage/lemmyverse.link" target="_blank">https://github.com/RikudouSage/lemmyverse.link</a>
         </p>
         <div class="result hidden" {{ stimulus_target('generate-link', 'result') }}>
             <p>
