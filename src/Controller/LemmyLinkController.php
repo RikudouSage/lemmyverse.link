@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\LemmyObjectResolver;
 use App\Service\NameParser;
 use App\Service\PreferenceManager;
 use InvalidArgumentException;
@@ -100,6 +101,58 @@ final class LemmyLinkController extends AbstractController
             $targetInstance = $preferenceManager->getPreferredLemmyInstance();
             $url = "https://{$targetInstance}/u/{$parsedName->fullName}";
         }
+
+        if ($targetInstance === null) {
+            return $this->redirect($preferenceRedirectUrl);
+        }
+
+        return $this->render('redirect.html.twig', [
+            'timeout' => $redirectTimeout,
+            'url' => $url,
+            'preferenceUrl' => $preferenceRedirectUrl,
+        ]);
+    }
+
+    #[Route('{originalInstance}/post/{postId}', name: 'app.post', methods: [Request::METHOD_GET])]
+    public function postLink(
+        string $originalInstance,
+        int $postId,
+        #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
+        #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        PreferenceManager $preferenceManager,
+        Request $request,
+        LemmyObjectResolver $objectResolver,
+    ): Response {
+        $forceHomeInstance
+            = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
+            || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
+        ;
+
+        if ($forceHomeInstance) {
+            $targetInstance = $originalInstance;
+            $url = "https://{$originalInstance}/post/{$postId}";
+        } else {
+            $targetInstance = $preferenceManager->getPreferredLemmyInstance();
+            if ($targetInstance === null) {
+                $url = null;
+            } else {
+                $targetPostId = $objectResolver->getPostId($postId, $originalInstance, $targetInstance);
+                if ($targetPostId === null) {
+                    $url = "https://{$originalInstance}/post/{$postId}";
+                } else {
+                    $url = "https://{$targetInstance}/post/{$targetPostId}";
+                }
+            }
+        }
+
+        $preferenceRedirectUrl = $this->generateUrl('app.preferences.instance', [
+            'redirectTo' => $this->generateUrl('app.post', [
+                'postId' => $postId,
+                'originalInstance' => $originalInstance,
+            ]),
+            'instance' => $originalInstance,
+            'post' => $postId,
+        ]);
 
         if ($targetInstance === null) {
             return $this->redirect($preferenceRedirectUrl);

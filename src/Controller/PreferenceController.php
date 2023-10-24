@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Service\LemmyObjectResolver;
 use App\Service\PopularInstancesService;
+use Rikudou\LemmyApi\Exception\LemmyApiException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +22,21 @@ final class PreferenceController extends AbstractController
         PopularInstancesService $popularInstances,
         #[Autowire('%app.preferred_instance_cookie%')] string $cookieName,
         #[Autowire('%app.skip_preferred_cookie%')] string $skipCookieName,
+        LemmyObjectResolver $lemmyObjectResolver,
     ): Response {
+        if ($request->query->has('instance')) {
+            if ($request->query->has('post')) {
+                try {
+                    $post = $lemmyObjectResolver->getPostById(
+                        $request->query->get('instance'),
+                        $request->query->getInt('post'),
+                    );
+                } catch (LemmyApiException) {
+                    $post = null;
+                }
+            }
+        }
+
         return $this->render('save-instance-preference.html.twig', [
             'redirectTo' => $request->query->get('redirectTo'),
             'community' => $request->query->get('community'),
@@ -28,6 +44,7 @@ final class PreferenceController extends AbstractController
             'instances' => $popularInstances->getPopularInstances(),
             'cookieName' => $cookieName,
             'skipCookieName' => $skipCookieName,
+            'post' => $post ?? null,
         ]);
     }
 }

@@ -39,3 +39,5 @@ Copied!: Zkopírováno
 'Without it being tied to any particular instance.': 'Aniž byste odkazovali na konkrétní instanci.'
 'The link you clicked is invalid because the user cannot be resolved:': 'Odkaz, na který jste klikli, není platný, protože nelze zjistit, na jakého uživatele přesměrovat:'
 "You are being taken to the '{user}' user profile. You might configure your home instance so that you are redirected automatically in the future.": "Právě jste přesměrováváni na uživatele ''{user}''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky."
+"You are being taken to a post '{post}'. You might configure your home instance so that you are redirected automatically in the future.": "Právě jste přesměrováváni na příspěvek s názvem ''{post}''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky."
+'You are being taken to a link on Lemmy. You might configure your home instance so that you are redirected automatically in the future.': 'Právě jste přesměrováváni na odkaz na Lemmy. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky.'
