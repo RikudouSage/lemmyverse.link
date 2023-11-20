@@ -3,8 +3,8 @@ import {sprintf} from "sprintf-js";
 
 export default class extends Controller {
     private readonly regexes = {
-        community: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/c\/(?<Community>[a-zA-Z0-9_]+)$/,
-        user: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/u\/(?<Username>[a-zA-Z0-9_]+)$/,
+        community: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/c\/(?<Community>[a-zA-Z0-9_]+)(?:@(?<IncludedInstance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9]))?$/,
+        user: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/u\/(?<Username>[a-zA-Z0-9_]+)(?:@(?<IncludedInstance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9]))?$/,
         post: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/post\/(?<PostId>[0-9_]+)$/,
         // comment: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/comment\/(?<CommentId>[0-9_]+)$/,
     }
@@ -42,10 +42,10 @@ export default class extends Controller {
         let target: string | null = null;
         if (this.regexes.community.test(link)) {
             const matches = link.match(this.regexes.community);
-            target = sprintf(this.linkTemplateCommunityValue, `${matches.groups!['Community']}@${matches.groups!['Instance']}`);
+            target = sprintf(this.linkTemplateCommunityValue, `${matches.groups!['Community']}@${matches.groups!['IncludedInstance'] ?? matches.groups!['Instance']}`);
         } else if (this.regexes.user.test(link)) {
             const matches = link.match(this.regexes.user);
-            target = sprintf(this.linkTemplateUserValue, `${matches.groups!['Username']}@${matches.groups!['Instance']}`);
+            target = sprintf(this.linkTemplateUserValue, `${matches.groups!['Username']}@${matches.groups!['IncludedInstance'] ?? matches.groups!['Instance']}`);
         } else if (this.regexes.post.test(link)) {
             const matches = link.match(this.regexes.post);
             target = sprintf(this.linkTemplatePostValue, matches.groups!['Instance'], matches.groups!['PostId']);
