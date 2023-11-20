@@ -9,12 +9,13 @@
         linkTemplateCommunity: url('app.community', {community: '%s'}) | url_decode,
         linkTemplateUser: url('app.user', {user: '%s'}) | url_decode,
         linkTemplatePost: url('app.post', {originalInstance: '%s', postId: '%d'}) | url_decode,
+        linkTemplateComment: url('app.comment', {originalInstance: '%s', commentId: '%d'}) | url_decode,
     }) }}>
         <p class="align-center">{{ "Without it being tied to any particular instance." | trans }}</p>
         <div class="button-wrapper flex">
             <input class="form-control" type="text"
                     {{ stimulus_target('generate-link', 'linkInput') }}
-                   placeholder="https://example.com/c/community, https://example.com/u/user, https://example.com/post/123"/>
+                   placeholder="https://example.com/c/community, https://example.com/u/user, https://example.com/post/123, https://example.com/comment/123"/>
             <button class="btn no-wrap" {{ stimulus_action('generate-link', 'createLink') }}>{{ "Create link" | trans }}</button>
         </div>
         <p>

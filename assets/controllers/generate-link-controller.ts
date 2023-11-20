@@ -6,7 +6,7 @@ export default class extends Controller {
         community: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/c\/(?<Community>[a-zA-Z0-9_]+)(?:@(?<IncludedInstance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9]))?$/,
         user: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/u\/(?<Username>[a-zA-Z0-9_]+)(?:@(?<IncludedInstance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9]))?$/,
         post: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/post\/(?<PostId>[0-9_]+)$/,
-        // comment: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/comment\/(?<CommentId>[0-9_]+)$/,
+        comment: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/comment\/(?<CommentId>[0-9_]+)$/,
     }
 
     static override targets = [
@@ -20,6 +20,7 @@ export default class extends Controller {
         linkTemplateCommunity: String,
         linkTemplateUser: String,
         linkTemplatePost: String,
+        linkTemplateComment: String,
     };
 
     private linkInputTarget: HTMLInputElement;
@@ -31,6 +32,7 @@ export default class extends Controller {
     private linkTemplateCommunityValue: string;
     private linkTemplateUserValue: string;
     private linkTemplatePostValue: string;
+    private linkTemplateCommentValue: string;
 
     public createLink(): void {
         this.errorTarget.classList.add('hidden');
@@ -49,6 +51,9 @@ export default class extends Controller {
         } else if (this.regexes.post.test(link)) {
             const matches = link.match(this.regexes.post);
             target = sprintf(this.linkTemplatePostValue, matches.groups!['Instance'], matches.groups!['PostId']);
+        } else if (this.regexes.comment.test(link)) {
+            const matches = link.match(this.regexes.comment);
+            target = sprintf(this.linkTemplateCommentValue, matches.groups!['Instance'], matches.groups!['CommentId']);
         } else {
             this.errorTarget.classList.remove('hidden');
             return;

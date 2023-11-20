@@ -41,5 +41,6 @@ Copied!: Zkopírováno
 'You are being taken to a link on Lemmy. You might configure your home instance so that you are redirected automatically in the future.': 'Právě jste přesměrováváni na odkaz na Lemmy. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky.'
 '{name} - Create shareable link to Lemmy': '{name} - Vytvořte odkaz na Lemmy, který lze sdílet'
 'Just paste the link in the box above.': 'Stačí vložit odkaz do políčka nahoře.'
-"We don't support this link :/": "Tenhle odkaz neumíme :/"
-"If you think that's a mistake, please let us know on GitHub": "Pokud si myslíte, že se jedná o chybu, dejte nám to prosím vědět na GitHubu"
+"We don't support this link :/": 'Tenhle odkaz neumíme :/'
+"If you think that's a mistake, please let us know on GitHub": 'Pokud si myslíte, že se jedná o chybu, dejte nám to prosím vědět na GitHubu'
+"You are being taken to a comment for a post '{post}'. You might configure your home instance so that you are redirected automatically in the future.": "Právě jste přesměrováváni na komentář k příspěvku s názvem ''{post}''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky."

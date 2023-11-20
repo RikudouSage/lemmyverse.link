@@ -164,4 +164,56 @@ final class LemmyLinkController extends AbstractController
             'preferenceUrl' => $preferenceRedirectUrl,
         ]);
     }
+
+    #[Route('{originalInstance}/comment/{commentId}', name: 'app.comment', methods: [Request::METHOD_GET])]
+    public function commentLink(
+        string $originalInstance,
+        int $commentId,
+        #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
+        #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        PreferenceManager $preferenceManager,
+        Request $request,
+        LemmyObjectResolver $objectResolver,
+    ): Response {
+        $forceHomeInstance
+            = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
+            || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
+        ;
+
+        if ($forceHomeInstance) {
+            $targetInstance = $originalInstance;
+            $url = "https://{$originalInstance}/comment/{$commentId}";
+        } else {
+            $targetInstance = $preferenceManager->getPreferredLemmyInstance();
+            if ($targetInstance === null) {
+                $url = null;
+            } else {
+                $targetCommentId = $objectResolver->getCommentId($commentId, $originalInstance, $targetInstance);
+                if ($targetCommentId === null) {
+                    $url = "https://{$originalInstance}/comment/{$commentId}";
+                } else {
+                    $url = "https://{$targetInstance}/comment/{$targetCommentId}";
+                }
+            }
+        }
+
+        $preferenceRedirectUrl = $this->generateUrl('app.preferences.instance', [
+            'redirectTo' => $this->generateUrl('app.comment', [
+                'commentId' => $commentId,
+                'originalInstance' => $originalInstance,
+            ]),
+            'instance' => $originalInstance,
+            'comment' => $commentId,
+        ]);
+
+        if ($targetInstance === null) {
+            return $this->redirect($preferenceRedirectUrl);
+        }
+
+        return $this->render('redirect.html.twig', [
+            'timeout' => $redirectTimeout,
+            'url' => $url,
+            'preferenceUrl' => $preferenceRedirectUrl,
+        ]);
+    }
 }

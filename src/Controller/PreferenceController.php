@@ -35,6 +35,20 @@ final class PreferenceController extends AbstractController
                     $post = null;
                 }
             }
+            if ($request->query->has('comment')) {
+                try {
+                    $comment = $lemmyObjectResolver->getCommentById(
+                        $request->query->get('instance'),
+                        $request->query->getInt('comment'),
+                    );
+                    $post = $lemmyObjectResolver->getPostById(
+                        $request->query->get('instance'),
+                        $comment->postId,
+                    );
+                } catch (LemmyApiException) {
+                    $comment = null;
+                }
+            }
         }
 
         return $this->render('save-instance-preference.html.twig', [
@@ -45,6 +59,7 @@ final class PreferenceController extends AbstractController
             'cookieName' => $cookieName,
             'skipCookieName' => $skipCookieName,
             'post' => $post ?? null,
+            'comment' => $comment ?? null,
         ]);
     }
 }

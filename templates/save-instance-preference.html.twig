@@ -22,6 +22,12 @@
                     '{user}': user,
                 }) }}
             </p>
+        {% elseif comment and post %}
+            <p>
+                {{ "You are being taken to a comment for a post '{post}'. You might configure your home instance so that you are redirected automatically in the future." | trans({
+                    '{post}': post.name,
+                }) }}
+            </p>
         {% elseif post %}
             <p>
                 {{ "You are being taken to a post '{post}'. You might configure your home instance so that you are redirected automatically in the future." | trans({
