@@ -3,8 +3,8 @@ import {sprintf} from "sprintf-js";
 
 export default class extends Controller {
     private readonly regexes = {
-        community: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/c\/(?<Community>[a-z0-9_]+)$/,
-        user: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/u\/(?<Username>[a-z0-9_]+)$/,
+        community: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/c\/(?<Community>[a-zA-Z0-9_]+)$/,
+        user: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/u\/(?<Username>[a-zA-Z0-9_]+)$/,
         post: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/post\/(?<PostId>[0-9_]+)$/,
         // comment: /^https:\/\/(?<Instance>[a-zA-Z0-9][a-zA-Z0-9-.]{0,61}[a-zA-Z0-9])\/comment\/(?<CommentId>[0-9_]+)$/,
     }
