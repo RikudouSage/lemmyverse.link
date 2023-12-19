@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bebabcd8769592deff64f8180a0e0504",
+    "content-hash": "d6eb99033a545e7c4e481aea7953786c",
     "packages": [
         {
             "name": "bref/bref",
@@ -752,16 +752,16 @@
         },
         {
             "name": "rikudou/lemmy-api",
-            "version": "v0.3.2",
+            "version": "v0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RikudouSage/LemmyApi.git",
-                "reference": "35f49e595b4c42f7ec74cfc320bdf883fddaf4d6"
+                "reference": "f0aa3f6c9171dff09a449f57bac9971b95ef3cf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RikudouSage/LemmyApi/zipball/35f49e595b4c42f7ec74cfc320bdf883fddaf4d6",
-                "reference": "35f49e595b4c42f7ec74cfc320bdf883fddaf4d6",
+                "url": "https://api.github.com/repos/RikudouSage/LemmyApi/zipball/f0aa3f6c9171dff09a449f57bac9971b95ef3cf2",
+                "reference": "f0aa3f6c9171dff09a449f57bac9971b95ef3cf2",
                 "shasum": ""
             },
             "require": {
@@ -795,9 +795,9 @@
             "description": "Communicate with Lemmy API from php",
             "support": {
                 "issues": "https://github.com/RikudouSage/LemmyApi/issues",
-                "source": "https://github.com/RikudouSage/LemmyApi/tree/v0.3.2"
+                "source": "https://github.com/RikudouSage/LemmyApi/tree/v0.4.0"
             },
-            "time": "2023-10-04T18:47:04+00:00"
+            "time": "2023-12-19T20:04:20+00:00"
         },
         {
             "name": "riverline/multipart-parser",
@@ -7370,5 +7370,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
