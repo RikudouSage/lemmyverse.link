@@ -10,7 +10,7 @@
         "bref/bref": "^2.0",
         "bref/symfony-bridge": "^0.2.2",
         "nyholm/psr7": "^1.8",
-        "rikudou/lemmy-api": "^0.3.2",
+        "rikudou/lemmy-api": "^0.4.0",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
         "symfony/flex": "^2",
