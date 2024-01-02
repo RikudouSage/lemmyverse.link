@@ -44,3 +44,9 @@ Copied!: Zkopírováno
 "We don't support this link :/": 'Tenhle odkaz neumíme :/'
 "If you think that's a mistake, please let us know on GitHub": 'Pokud si myslíte, že se jedná o chybu, dejte nám to prosím vědět na GitHubu'
 "You are being taken to a comment for a post '{post}'. You might configure your home instance so that you are redirected automatically in the future.": "Právě jste přesměrováváni na komentář k příspěvku s názvem ''{post}''. Můžete si nastavit vaši domovskou instanci, a příště budete přesměrováni automaticky."
+'Configure instance and delay': 'Nastavit instanci a zpoždění'
+'Here you can configure your target instance and redirect delay.': 'Zde můžete nastavit svou cílovou instanci a zpoždění při přesměrování.'
+'Back to homepage': 'Zpět na hlavní stránku'
+'Always use original instance': 'Vždy použít původní instanci'
+'Configure delay': 'Nastavit zpoždění'
+'Your preferred delay (in seconds)': 'Vámi preferované zpoždění (v sekundách)'

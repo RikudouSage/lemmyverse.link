@@ -7,6 +7,7 @@ parameters:
     app.redirect_timeout: 4
     app.preferred_instance_cookie: preferred_instance
     app.skip_preferred_cookie: skip_preferred
+    app.delay_cookie: delay_time_s
 
 services:
     # default configuration for services in *this* file
