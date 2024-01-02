@@ -22,6 +22,7 @@ final class LemmyLinkController extends AbstractController
         string $community,
         #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
         #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        #[Autowire('%app.delay_cookie%')] string $delayCookieName,
         PreferenceManager $preferenceManager,
         Request $request,
         NameParser $communityNameParser,
@@ -30,6 +31,8 @@ final class LemmyLinkController extends AbstractController
             = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
          || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
         ;
+
+        $redirectTimeout = $request->cookies->getInt($delayCookieName, $redirectTimeout);
 
         try {
             $parsedCommunityName = $communityNameParser->parse($community);
@@ -58,6 +61,10 @@ final class LemmyLinkController extends AbstractController
             return $this->redirect($preferenceRedirectUrl);
         }
 
+        if ($redirectTimeout === 0) {
+            return $this->redirect($url);
+        }
+
         return $this->render('redirect.html.twig', [
             'timeout' => $redirectTimeout,
             'url' => $url,
@@ -70,6 +77,7 @@ final class LemmyLinkController extends AbstractController
         string $user,
         #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
         #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        #[Autowire('%app.delay_cookie%')] string $delayCookieName,
         PreferenceManager $preferenceManager,
         Request $request,
         NameParser $usernameParser,
@@ -78,6 +86,8 @@ final class LemmyLinkController extends AbstractController
             = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
             || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
         ;
+
+        $redirectTimeout = $request->cookies->getInt($delayCookieName, $redirectTimeout);
 
         try {
             $parsedName = $usernameParser->parse($user);
@@ -106,6 +116,10 @@ final class LemmyLinkController extends AbstractController
             return $this->redirect($preferenceRedirectUrl);
         }
 
+        if ($redirectTimeout === 0) {
+            return $this->redirect($url);
+        }
+
         return $this->render('redirect.html.twig', [
             'timeout' => $redirectTimeout,
             'url' => $url,
@@ -119,6 +133,7 @@ final class LemmyLinkController extends AbstractController
         int $postId,
         #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
         #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        #[Autowire('%app.delay_cookie%')] string $delayCookieName,
         PreferenceManager $preferenceManager,
         Request $request,
         LemmyObjectResolver $objectResolver,
@@ -127,6 +142,8 @@ final class LemmyLinkController extends AbstractController
             = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
             || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
         ;
+
+        $redirectTimeout = $request->cookies->getInt($delayCookieName, $redirectTimeout);
 
         if ($forceHomeInstance) {
             $targetInstance = $originalInstance;
@@ -143,6 +160,10 @@ final class LemmyLinkController extends AbstractController
                     $url = "https://{$targetInstance}/post/{$targetPostId}";
                 }
             }
+        }
+
+        if ($redirectTimeout === 0 && $url !== null) {
+            return $this->redirect($url);
         }
 
         $preferenceRedirectUrl = $this->generateUrl('app.preferences.instance', [
@@ -171,6 +192,7 @@ final class LemmyLinkController extends AbstractController
         int $commentId,
         #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
         #[Autowire('%app.skip_preferred_cookie%')] string $skipPreferred,
+        #[Autowire('%app.delay_cookie%')] string $delayCookieName,
         PreferenceManager $preferenceManager,
         Request $request,
         LemmyObjectResolver $objectResolver,
@@ -179,6 +201,8 @@ final class LemmyLinkController extends AbstractController
             = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
             || ($request->cookies->has($skipPreferred) && $request->cookies->getBoolean($skipPreferred))
         ;
+
+        $redirectTimeout = $request->cookies->getInt($delayCookieName, $redirectTimeout);
 
         if ($forceHomeInstance) {
             $targetInstance = $originalInstance;
@@ -195,6 +219,10 @@ final class LemmyLinkController extends AbstractController
                     $url = "https://{$targetInstance}/comment/{$targetCommentId}";
                 }
             }
+        }
+
+        if ($redirectTimeout === 0 && $url !== null) {
+            return $this->redirect($url);
         }
 
         $preferenceRedirectUrl = $this->generateUrl('app.preferences.instance', [

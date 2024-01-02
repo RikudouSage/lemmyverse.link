@@ -22,6 +22,8 @@ final class PreferenceController extends AbstractController
         PopularInstancesService $popularInstances,
         #[Autowire('%app.preferred_instance_cookie%')] string $cookieName,
         #[Autowire('%app.skip_preferred_cookie%')] string $skipCookieName,
+        #[Autowire('%app.delay_cookie%')] string $delayCookieName,
+        #[Autowire('%app.redirect_timeout%')] int $redirectTimeout,
         LemmyObjectResolver $lemmyObjectResolver,
     ): Response {
         if ($request->query->has('instance')) {
@@ -58,8 +60,11 @@ final class PreferenceController extends AbstractController
             'instances' => $popularInstances->getPopularInstances(),
             'cookieName' => $cookieName,
             'skipCookieName' => $skipCookieName,
+            'delayCookieName' => $delayCookieName,
             'post' => $post ?? null,
             'comment' => $comment ?? null,
+            'home' => $request->query->getBoolean('home'),
+            'delay' => $request->cookies->getInt($delayCookieName, $redirectTimeout),
         ]);
     }
 }

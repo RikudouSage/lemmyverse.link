@@ -42,6 +42,12 @@
         <p>
             <a class="explanation-link"
                href="{{ path('app.explanation') }}"><small>{{ "How does it work?" | trans }}</small></a>
+            <a class="explanation-link" href="{{ path('app.preferences.instance', {
+                home: 1,
+                redirectTo: path('app.home'),
+            }) }}">
+                <small>{{ "Configure instance and delay" | trans }}</small>
+            </a>
         </p>
     </div>
 {% endblock %}

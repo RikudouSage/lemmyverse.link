@@ -5,6 +5,7 @@
 {% block body %}
     <div {{ stimulus_controller('save-preference', {
         cookieName: cookieName,
+        delayCookieName: delayCookieName,
         skipCookieName: skipCookieName,
         redirectUrl: redirectTo,
         emptyInputError: "The field cannot be empty." | trans,
@@ -34,6 +35,11 @@
                     '{post}': post.name,
                 }) }}
             </p>
+        {% elseif home %}
+            <p>
+                {{ "Here you can configure your target instance and redirect delay." | trans }}
+                <a href="{{ path('app.home') }}">{{ "Back to homepage" | trans }}</a>.
+            </p>
         {% else %}
             <p>
                 {{ "You are being taken to a link on Lemmy. You might configure your home instance so that you are redirected automatically in the future." | trans}}
@@ -42,7 +48,14 @@
 
         <div class="button-wrapper">
             <button class="btn" {{ stimulus_action('save-preference', 'toggleInstanceRow') }}>{{ "Set my home instance" | trans }}</button>
-            <button class="btn" {{ stimulus_action('save-preference', 'skipPreferred') }}>{{ "Just take me there!" | trans }}</button>
+            <button class="btn" {{ stimulus_action('save-preference', 'skipPreferred') }}>
+                {% if not home %}
+                    {{ "Just take me there!" | trans }}
+                {% else %}
+                    {{ "Always use original instance" | trans }}
+                {% endif %}
+            </button>
+            <button class="btn" {{ stimulus_action('save-preference', 'toggleDelayConfig') }}>{{ "Configure delay" | trans }}</button>
         </div>
         <div class="button-wrapper hidden" {{ stimulus_target('save-preference', 'preferredInstances') }}>
             {% for instance in instances %}
@@ -57,6 +70,16 @@
                        {{ stimulus_target('save-preference', 'customInstanceInput') }}
                        placeholder="{{ "Your custom instance (without https:// - just the domain, for example lemmings.world)" | trans }}"/>
                 <button class="btn" {{ stimulus_action('save-preference', 'saveCustomInstance') }}>{{ "Save" | trans }}</button>
+            </div>
+        </div>
+
+        <div class="hidden" {{ stimulus_target('save-preference', 'delayConfigWrapper') }}>
+            <p>{{ "Your preferred delay (in seconds)" | trans }}:</p>
+            <div class="button-wrapper flex">
+                <input class="form-control" type="number" min="0" value="{{ delay }}"
+                    {{ stimulus_target('save-preference', 'delayConfigInput') }}
+                />
+                <button class="btn" {{ stimulus_action('save-preference', 'saveDelay') }}>{{ "Save" | trans }}</button>
             </div>
         </div>
 

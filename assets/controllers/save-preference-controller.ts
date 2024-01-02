@@ -8,6 +8,8 @@ export default class extends Controller {
         'customInstanceInputWrapper',
         'customInstanceInput',
         'errorText',
+        'delayConfigWrapper',
+        'delayConfigInput',
     ];
     static override values = {
         cookieName: String,
@@ -15,18 +17,22 @@ export default class extends Controller {
         emptyInputError: String,
         invalidValueError: String,
         skipCookieName: String,
+        delayCookieName: String,
     };
 
     private preferredInstancesTarget: HTMLDivElement;
     private customInstanceInputWrapperTarget: HTMLDivElement;
     private customInstanceInputTarget: HTMLInputElement;
     private errorTextTarget: HTMLParagraphElement;
+    private delayConfigWrapperTarget: HTMLDivElement;
+    private delayConfigInputTarget: HTMLInputElement;
 
     private cookieNameValue: string;
     private redirectUrlValue: string;
     private emptyInputErrorValue: string;
     private invalidValueErrorValue: string;
     private skipCookieNameValue: string;
+    private delayCookieNameValue: string;
 
     public toggleInstanceRow(): void {
         const className = 'hidden';
@@ -62,13 +68,33 @@ export default class extends Controller {
 
         this.savePreference(this.customInstanceInputTarget.value);
         this.removeCookie(this.skipCookieNameValue);
-        window.location.href = this.redirectUrlValue;
+        if (this.redirectUrlValue) {
+            window.location.href = this.redirectUrlValue;
+        }
     }
 
     public skipPreferred(): void {
         this.savePreference('1', this.skipCookieNameValue);
         this.removeCookie(this.cookieNameValue);
-        window.location.href = this.redirectUrlValue;
+        if (this.redirectUrlValue) {
+            window.location.href = this.redirectUrlValue;
+        }
+    }
+
+    public toggleDelayConfig(): void {
+        this.delayConfigWrapperTarget.classList.toggle('hidden');
+    }
+
+    public saveDelay(): void  {
+        const value = this.delayConfigInputTarget.valueAsNumber;
+        const targetDate = new Date();
+        targetDate.setFullYear(targetDate.getFullYear() + 100);
+
+        document.cookie = `${this.delayCookieNameValue}=${isNaN(value) ? 5 : value}; expires=${targetDate.toString()}; path=/`;
+
+        if (this.redirectUrlValue) {
+            window.location.href = this.redirectUrlValue;
+        }
     }
 
     private savePreference(instance: string, cookieName: string = this.cookieNameValue): void {
