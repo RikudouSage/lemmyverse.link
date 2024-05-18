@@ -8,7 +8,7 @@ final readonly class LemmyLinkProvider implements LinkProvider
 {
     public function supports(string $software): bool
     {
-        return strtolower($software) === 'lemmy';
+        return in_array(strtolower($software), ['lemmy', 'piefed'], true);
     }
 
     public function getCommunityLink(string $instance, string $communityName): string
