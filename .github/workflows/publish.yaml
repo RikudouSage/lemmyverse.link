@@ -19,6 +19,9 @@ jobs:
           - domain: threadiverse.link
             zoneSecret: THREADIVERSE_ZONE_ID
             domainId: Threadiverse
+          - domain: sublinks.link
+            zoneSecret: SUBLINKS_ZONE_ID
+            domainId: Sublinks
     env:
       DOMAIN_NAME: ${{ matrix.domain }}
       DOMAIN_ZONE: ${{ secrets[matrix.zoneSecret] }}
