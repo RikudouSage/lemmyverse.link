@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        domain: [lemmyverse.link, threadiverse.link]
+        domain: [lemmyverse.link, threadiverse.link, sublinks.link]
         include:
           - domain: lemmyverse.link
             zoneSecret: LEMMYVERSE_ZONE_ID
