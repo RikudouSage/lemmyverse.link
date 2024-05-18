@@ -3,12 +3,14 @@
 namespace App\Service\LinkProvider;
 
 use App\Exception\UnsupportedFeatureException;
+use Symfony\Component\DependencyInjection\Attribute\AsTaggedItem;
 
+#[AsTaggedItem(priority: -1000)]
 final readonly class LemmyLinkProvider implements LinkProvider
 {
     public function supports(string $software): bool
     {
-        return in_array(strtolower($software), ['lemmy', 'piefed'], true);
+        return true;
     }
 
     public function getCommunityLink(string $instance, string $communityName): string
