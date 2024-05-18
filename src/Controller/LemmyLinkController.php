@@ -45,6 +45,7 @@ final class LemmyLinkController extends AbstractController
         $preferenceRedirectUrl = $this->generateUrl('app.preferences.instance', [
             'redirectTo' => $this->generateUrl('app.community', [
                 'community' => $community,
+                ...$request->query->all(),
             ]),
             'community' => $community,
         ]);
@@ -55,6 +56,9 @@ final class LemmyLinkController extends AbstractController
         } else {
             $targetInstance = $preferenceManager->getPreferredLemmyInstance();
             $url = "https://{$targetInstance}/c/{$parsedCommunityName->fullName}";
+        }
+        if ($request->query->count() > 0) {
+            $url .= '?' . http_build_query($request->query->all());
         }
 
         if ($targetInstance === null) {
