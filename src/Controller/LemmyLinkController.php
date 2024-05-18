@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Service\LemmyObjectResolver;
+use App\Service\LinkProvider\LinkProviderManager;
 use App\Service\NameParser;
 use App\Service\PreferenceManager;
+use App\Service\WebFingerParser;
 use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +29,8 @@ final class LemmyLinkController extends AbstractController
         PreferenceManager $preferenceManager,
         Request $request,
         NameParser $communityNameParser,
+        LinkProviderManager $linkProviderManager,
+        WebFingerParser $webFingerParser,
     ): Response {
         $forceHomeInstance
             = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
@@ -52,17 +57,25 @@ final class LemmyLinkController extends AbstractController
 
         if ($forceHomeInstance) {
             $targetInstance = $parsedCommunityName->homeInstance;
-            $url = "https://{$targetInstance}/c/{$parsedCommunityName->name}";
+            $resolvedCommunity = $parsedCommunityName->name;
         } else {
             $targetInstance = $preferenceManager->getPreferredLemmyInstance();
-            $url = "https://{$targetInstance}/c/{$parsedCommunityName->fullName}";
-        }
-        if ($request->query->count() > 0) {
-            $url .= '?' . http_build_query($request->query->all());
+            $resolvedCommunity = $parsedCommunityName->fullName;
         }
 
         if ($targetInstance === null) {
             return $this->redirect($preferenceRedirectUrl);
+        }
+
+        $linkProvider = $linkProviderManager->findProvider(
+            $webFingerParser->getSoftware($targetInstance) ?? throw new RuntimeException('Failed to get software for target instance'),
+        );
+        if ($linkProvider === null) {
+            throw new RuntimeException("Unsupported software for target instance: {$webFingerParser->getSoftware($targetInstance)}");
+        }
+        $url = $linkProvider->getCommunityLink($targetInstance, $resolvedCommunity);
+        if ($request->query->count() > 0) {
+            $url .= '?' . http_build_query($request->query->all());
         }
 
         if ($redirectTimeout === 0) {
@@ -85,6 +98,8 @@ final class LemmyLinkController extends AbstractController
         PreferenceManager $preferenceManager,
         Request $request,
         NameParser $usernameParser,
+        LinkProviderManager $linkProviderManager,
+        WebFingerParser $webFingerParser,
     ): Response {
         $forceHomeInstance
             = ($request->query->has('forceHomeInstance') && $request->query->getBoolean('forceHomeInstance'))
@@ -104,20 +119,32 @@ final class LemmyLinkController extends AbstractController
         $preferenceRedirectUrl = $this->generateUrl('app.preferences.instance', [
             'redirectTo' => $this->generateUrl('app.user', [
                 'user' => $user,
+                ...$request->query->all(),
             ]),
             'user' => $user,
         ]);
 
         if ($forceHomeInstance) {
             $targetInstance = $parsedName->homeInstance;
-            $url = "https://{$targetInstance}/u/{$parsedName->name}";
+            $resolvedUser = $parsedName->name;
         } else {
             $targetInstance = $preferenceManager->getPreferredLemmyInstance();
-            $url = "https://{$targetInstance}/u/{$parsedName->fullName}";
+            $resolvedUser = $parsedName->fullName;
         }
 
         if ($targetInstance === null) {
             return $this->redirect($preferenceRedirectUrl);
+        }
+
+        $linkProvider = $linkProviderManager->findProvider(
+            $webFingerParser->getSoftware($targetInstance) ?? throw new RuntimeException('Failed to get software for target instance'),
+        );
+        if ($linkProvider === null) {
+            throw new RuntimeException("Unsupported software for target instance: {$webFingerParser->getSoftware($targetInstance)}");
+        }
+        $url = $linkProvider->getUserLink($targetInstance, $resolvedUser);
+        if ($request->query->count() > 0) {
+            $url .= '?' . http_build_query($request->query->all());
         }
 
         if ($redirectTimeout === 0) {
