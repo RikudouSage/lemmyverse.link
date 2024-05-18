@@ -22,6 +22,7 @@ This project is currently hosted on:
 
 - lemmyverse.link
 - threadiverse.link
+- sublinks.link
 
 ## Translating
 
