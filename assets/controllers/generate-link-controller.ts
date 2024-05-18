@@ -39,7 +39,9 @@ export default class extends Controller {
         this.resultTarget.classList.add('hidden');
         this.copyToClipboardResultTarget.classList.add('hidden');
 
-        const link = this.linkInputTarget.value;
+        const url = new URL(this.linkInputTarget.value);
+        const link = ((url: URL) => `${url.protocol}//${url.host}${url.pathname}`)(url);
+        console.log(link, this.linkInputTarget.value);
 
         let target: string | null = null;
         if (this.regexes.community.test(link)) {
@@ -57,6 +59,10 @@ export default class extends Controller {
         } else {
             this.errorTarget.classList.remove('hidden');
             return;
+        }
+
+        if (url.search) {
+            target += url.search;
         }
 
         this.linkPlaceholderTarget.innerHTML = `<a href="${target}">${target}</a>`;
