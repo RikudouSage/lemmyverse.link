@@ -16,8 +16,6 @@ final class PopularInstancesService
         return [
             'lemmy.world',
             'lemm.ee',
-            'lemmy.ml',
-            'feddit.de',
             'lemmy.ca',
             'beehaw.org',
             'lemmy.dbzer0.com',
