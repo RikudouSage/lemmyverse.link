@@ -22,6 +22,7 @@ final class PopularInstancesService
             'beehaw.org',
             'lemmy.dbzer0.com',
             'lemmings.world',
+            'lemmy.blahaj.zone',
         ];
     }
 }
