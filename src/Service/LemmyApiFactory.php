@@ -19,10 +19,11 @@ final readonly class LemmyApiFactory
     public function getForInstance(string $instance): LemmyApi
     {
         return new DefaultLemmyApi(
-            "https://{$instance}",
-            LemmyApiVersion::Version3,
-            $this->client,
-            $this->requestFactory,
+            instanceUrl: "https://{$instance}",
+            version: LemmyApiVersion::Version3,
+            httpClient: $this->client,
+            requestFactory: $this->requestFactory,
+            strictDeserialization: false,
         );
     }
 }
