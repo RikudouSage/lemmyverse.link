@@ -21,6 +21,7 @@ final class PopularInstancesService
             'lemmy.dbzer0.com',
             'lemmings.world',
             'lemmy.blahaj.zone',
+            'discuss.online',
         ];
     }
 }
