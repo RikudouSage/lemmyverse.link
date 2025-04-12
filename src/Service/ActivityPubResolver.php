@@ -31,6 +31,7 @@ final readonly class ActivityPubResolver
 
             $content = $response->getContent();
             $json = json_decode($content, true, JSON_THROW_ON_ERROR);
+            assert(is_array($json));
 
             return new ActivityPubItem(
                 id: $json['id'],

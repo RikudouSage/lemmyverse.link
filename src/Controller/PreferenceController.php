@@ -30,7 +30,7 @@ final class PreferenceController extends AbstractController
             if ($request->query->has('post')) {
                 try {
                     $post = $lemmyObjectResolver->getPostById(
-                        $request->query->get('instance'),
+                        $request->query->getString('instance'),
                         $request->query->getInt('post'),
                     );
                 } catch (LemmyApiException) {
@@ -40,11 +40,11 @@ final class PreferenceController extends AbstractController
             if ($request->query->has('comment')) {
                 try {
                     $comment = $lemmyObjectResolver->getCommentById(
-                        $request->query->get('instance'),
+                        $request->query->getString('instance'),
                         $request->query->getInt('comment'),
                     );
                     $post = $lemmyObjectResolver->getPostById(
-                        $request->query->get('instance'),
+                        $request->query->getString('instance'),
                         $comment->postId,
                     );
                 } catch (LemmyApiException) {
