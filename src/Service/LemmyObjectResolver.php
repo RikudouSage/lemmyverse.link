@@ -2,12 +2,14 @@
 
 namespace App\Service;
 
+use App\Dto\ActivityPubItem;
 use JsonException;
 use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
 use Rikudou\LemmyApi\Exception\LemmyApiException;
 use Rikudou\LemmyApi\Response\Model\Comment;
 use Rikudou\LemmyApi\Response\Model\Post;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -19,6 +21,7 @@ final readonly class LemmyObjectResolver
         private LemmyApiFactory $apiFactory,
         private CacheItemPoolInterface $cache,
         private HttpClientInterface $httpClient,
+        private ActivityPubResolver $activityPubResolver,
     ) {
     }
 
@@ -29,7 +32,7 @@ final readonly class LemmyObjectResolver
         }
 
         $originalPost = $this->getPostById($originalInstance, $originalPostId);
-        $activityPubId = $originalPost->apId;
+        $activityPubId = $originalPost->id;
 
         try {
             $targetInstance = $this->getRealTargetInstance($targetInstance);
@@ -60,19 +63,21 @@ final readonly class LemmyObjectResolver
         return $targetComment?->id;
     }
 
-    public function getPostById(string $instance, int $postId): Post
+    public function getPostById(string $instance, int $postId): ActivityPubItem
     {
-        $cacheItem = $this->cache->getItem("post_{$instance}_{$postId}");
+        $cacheItem = $this->cache->getItem("post_ap_{$instance}_{$postId}");
         if ($cacheItem->isHit()) {
             return $cacheItem->get(); // @phpstan-ignore-line
         }
 
-        $api = $this->apiFactory->getForInstance($instance);
-        $post = $api->post()->get($postId);
-        $cacheItem->set($post->post);
+        $post = $this->activityPubResolver->getItem("https://{$instance}/post/{$postId}");
+        if (!$post) {
+            throw new RuntimeException('Post not found');
+        }
+        $cacheItem->set($post);
         $this->cache->save($cacheItem);
 
-        return $post->post;
+        return $post;
     }
 
     public function getCommentById(string $instance, int $commentId): Comment
