@@ -65,7 +65,7 @@
             "@auto-scripts"
         ],
         "fixer": "php-cs-fixer fix --verbose --allow-risky=yes",
-        "translations": "php bin/console translation:extract cs --force --format yaml",
+        "translations": "php bin/console translation:extract cs --force --format yaml && php bin/console translation:extract uk --force --format yaml",
         "phpstan": "phpstan analyse --level=max src",
         "phpunit": "bin/phpunit",
         "test": [
